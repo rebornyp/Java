@@ -1,0 +1,31 @@
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
+public class OutputSessionInfo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public static void printSessionInfo(PrintWriter out, HttpSession session) {
+		out.println("会话状态：");
+		if(session.isNew()) {
+			out.println("新的会话" + "<br>");
+		} else {
+			out.println("旧的会话" + "<br>");
+		}
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date d1 = new Date(session.getCreationTime());
+		Date d2 = new Date(session.getLastAccessedTime());
+		out.println("sessionId:" + session.getId() + "<br>");
+		out.println("创建时间:" + sd.format(d1) + "<br>");
+		out.println("上次访问时间:" + sd.format(d2) + "<br>");
+		out.println("最大不活动时间间隔:" + session.getMaxInactiveInterval()+ "<br>");
+		
+	}
+
+}
