@@ -1,0 +1,41 @@
+	/**
+  *Ajax的使用Post方式传输数据
+  */
+  function fun() {
+ 		xmlhttp=new XMLHttpRequest();
+ 		var url = "hello.jsp";
+		xmlhttp.open("POST", url, true);
+		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		xmlhttp.send(null);
+		
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState == 4) {
+				if(xmlhttp.status == 200 || xmlhttp.status == 304) {
+					var c = xmlhttp.responseText;
+					alert(c);
+					document.getElementById("p").innerHTML = xmlhttp.responseText;
+				}
+			}
+		}
+	}
+  
+  	/**
+  *Ajax的使用Get方式传输数据
+  */
+  	function te() {
+		xmlhttp=new XMLHttpRequest();
+		var url = "hello.jsp";
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send(null);
+		
+		xmlhttp.onreadystatechange = function() { 
+			if(xmlhttp.readyState == 4) {
+				if(xmlhttp.status == 200 || xmlhttp.status == 304) {
+					var num = xmlhttp.responseText;
+					alert(num);
+					document.getElementById("p").innerHTML = num;
+				}
+			}
+		} 
+	}
+  
