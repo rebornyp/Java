@@ -1,0 +1,34 @@
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class LoginChkServlet extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		 req.setCharacterEncoding("utf-8");
+		 String name = req.getParameter("user");
+		 String pw = req.getParameter("password");
+		 if(name == null || pw == null || name.equals("") || pw.equals("")) {
+			 resp.sendRedirect("login");
+			 return;
+		 } else {
+			 HttpSession session = req.getSession();
+			 session.setAttribute("user", name);
+			 resp.sendRedirect(resp.encodeRedirectURL("greet"));
+			 return;
+		 }
+		 
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(req, resp);
+	}
+
+}
