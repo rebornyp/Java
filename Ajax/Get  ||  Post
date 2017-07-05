@@ -33,7 +33,7 @@
 				if(xmlhttp.status == 200 || xmlhttp.status == 304) {
 					var num = xmlhttp.responseText;
 					alert(num);
-					document.getElementById("p").innerHTML = num;
+					document.getElementById("p").innerHTML = num; 
 				}
 			}
 		} 
