@@ -1,0 +1,49 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class LoginServlet extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html;charset=utf-8");
+		HttpSession session = req.getSession();
+		String user = (String)session.getAttribute("user");
+		PrintWriter pw = resp.getWriter();
+		pw.write("登录页面");
+		pw.println("<html>");
+		pw.println("<head><title>ss</title></head>");
+		pw.println("<body>");
+		OutputSessionInfo.printSessionInfo(pw, session);
+		pw.println("<p>");
+		pw.println("<form method=post action= " + resp.encodeRedirectURL("loginchk") + ">"); //URL重写机制，能有效的
+		//防止客户端禁用cookie，其方式是将session传递到页面跳转之间的url上去。
+		//如果不用resp.encodeRedirectURL这个函数，那么每次跳转如果禁用cookie的话，都会产生一个新的session
+		pw.println("<table><tr><td>请输入你用户名</td>");
+		if(null == user) {
+			//pw.println("是空的啦");
+			pw.println("<td><input type=text name=user></td>");
+		} else
+			//pw.println("是非空的啦");
+			pw.println("<td><input type=text name=user value=" + user + "></td>");
+		pw.println("</tr>");
+		pw.println("<tr>");
+		pw.println("<td>请输入密码</td>");
+		pw.println("<td><input type=password name=password></td></tr>");
+		
+		pw.println("<tr>");
+		pw.println("<td><input type=reset value=重填></td>");
+		pw.println("<td><input type=submit value=登录></td></tr>");
+		
+		pw.println("</table>");
+		pw.println("</form></body></html>");
+		
+		pw.close();
+	}
+
+}
