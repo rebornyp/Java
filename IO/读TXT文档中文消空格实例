@@ -29,11 +29,11 @@ public class Trim {
 		String filePath = "C:\\Users\\Gastby\\Desktop\\a.txt";
 		File f = new File(filePath);
 		InputStream is = null;
-		
+		InputStreamReader isr = null;
 		if(f.exists()) {
 			try {
 				is = new FileInputStream(f);
-				InputStreamReader isr = new InputStreamReader(is, getCharset(filePath));  
+				isr = new InputStreamReader(is, getCharset(filePath));  
 				String str = "";
 				int b;
 				while((b = isr.read()) != -1) {
@@ -46,7 +46,10 @@ public class Trim {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			} finally {
+				isr.close();
+				is.close();
+			}
 		}
 		
 	}
