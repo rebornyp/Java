@@ -67,8 +67,11 @@ public class Trim {
 	 * @throws IOException
 	 */
 	private static String getCharset(String fileName) throws IOException{  
-        BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName));    
-        int p = (bin.read() << 8) + bin.read();    
+        /*BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fileName));    
+        int p = (bin.read() << 8) + bin.read();*/
+	/*下面的代码明显是比上面两行代码省事好吧，第一次看到了使用左移运算符，也是可以的*/
+	FileReader fr = new FileReader(fileName);
+        int p = fr.read();
           
         String code = null;    
           
