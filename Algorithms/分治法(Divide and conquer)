@@ -1,0 +1,133 @@
+package Algorithms;
+
+
+/**
+ * 分治法的一些应用
+ * @author Gastby
+ */
+public class Divide {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int n = 5;
+		int num = 3;
+		int[] a = {6, 5, 12, 0, 100, -4};
+		sort(a, 0, a.length-1);
+		p(a);
+	}
+
+	/**
+	 * 归并排序算法，利用分治法进行归并排序
+	 * @param a 任意数组
+	 * @param i 数组最左端
+	 * @param j 数组最右端
+	 */
+	private static int[] sort(int[] a, int i, int j) {
+		// TODO Auto-generated method stub
+		if(i >= j)
+			return a;
+		int middle = (i + j) / 2;
+		sort(a, i, middle);
+		sort(a, middle+1, j);
+		Merge(a, i, middle, j);
+		return a;
+	}
+
+	/**
+	 * 归并排序的治理阶段。
+	 * @param a
+	 * @param i
+	 * @param middle
+	 * @param j
+	 */
+	private static void Merge(int[] a, int i, int middle, int j) {
+		// TODO Auto-generated method stub
+		int[] b = new int[a.length];
+		int n1 = i, n2 = middle+1;
+		int k = i; //临时数组索引
+		while(n1 <= middle && n2 <= j) {
+			if(a[n1] > a[n2]) {
+				b[k++] = a[n2++];					
+			} else {
+				b[k++] = a[n1++];
+			}
+		}
+		while(n2 <= j)
+			b[k++] = a[n2++];
+		while(n1 <= middle)
+			b[k++] = a[n1++];
+		while(i <= j)
+			a[i] = b[i++];
+	}
+
+	/**
+	 * 打印数组方法
+	 * @param o
+	 */
+	static void p(int[] o) {
+		String s = "[";
+		for(int i=0; i<o.length; i++)
+			if(i != o.length - 1)
+				s += o[i] + ",";
+			else
+				s += o[i] +"]";
+		p(s);
+	}
+	
+	/**
+	 * 二分查找法求算k值所在数组a的下标，不存在返回-1
+	 * @param a
+	 * @return 下标值
+	 */
+	private static int search(int[] a, int k, int start, int end) {
+		// TODO Auto-generated method stub
+		if(start > end)
+			return -1;
+		int middle = (start + end) / 2;
+		if(k == a[middle])
+			return middle;
+		else if(k > a[middle])
+			return search(a, k, middle+1, end);
+		else
+			return search(a, k, start, middle-1);
+		
+	}
+
+
+
+	/**
+	 * 计算数字n的阶乘的方法
+	 * @param n
+	 * @return 返回的是最后数值
+	 */
+	static int countFactories(int n) {
+		
+		return 0;
+	}
+	
+	/**
+	 * 计算数字num的n次幂的方法，不过才用的思想是省时间的分治法
+	 * @param num
+	 * @param n
+	 * @return 返回的是num的n次幂
+	 */
+	private static int countPow(int num, int n) {
+		// TODO Auto-generated method stub
+		if(n == 0)
+			return 1;
+		if(n == 1)
+			return num;
+		if(n % 2 == 0)
+			return (int)Math.pow(countPow(num, n / 2), 2);
+		else
+			return (int)Math.pow(countPow(num, (n - 1) / 2), 2) * num;
+	}
+
+	/**
+	 * 打印方法
+	 * @param o
+	 */
+	static void p(Object o) {
+		System.out.println(o);
+	}
+}
