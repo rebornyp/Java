@@ -1,0 +1,30 @@
+/**
+	 * 快速排序算法，输入数组a，和数组下界start与上界end
+	 * @param a
+	 * @param start
+	 * @param end
+	 */
+	private static void quickSort(int[] a, int start, int end) {
+		if(a == null || a.length <= 1 || start >= end)
+			return;
+		int i = start-1; //这个是为了让后续好+1啊
+		int temp, value = a[end]; // 定下一个数值，如果定下最后一个，那么就从前往后开始遍历，如果定下最前头一个，那么就从后往前遍历
+		for(int j=start; j<end; j++) {
+			if(a[j] < value) {
+				i ++; // 结合初始条件就能看懂了
+				if(i != j) { //可以减少i=j时再去换值
+					temp = a[i];
+					a[i] = a[j];
+					a[j] = temp;
+				}
+			}
+		}
+		
+		if(i+1 != end) {
+			a[end] = a[i+1]; //搞完了正好从0~i都是小于value的数值，那么就把第i+1个(肯定是大于value或者是它本身)和定下的value互换位置
+			a[i+1] = value;
+		}
+		//以value换了以后的新的位置为界限，然后左右都递归调用原函数进行排序
+		quickSort(a, start, i);
+		quickSort(a, i+2, end);
+	}
