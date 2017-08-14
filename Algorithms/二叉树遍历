@@ -1,0 +1,176 @@
+/**
+ * 这是树算法里的树节点类
+ * @author Gastby
+ *
+ */
+class TreeNode {
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof TreeNode) {
+			TreeNode t = (TreeNode)obj;
+			return t.val == val;
+		}
+		return false;
+	}
+
+	int val;
+	TreeNode p;
+	TreeNode left;
+	TreeNode right;
+	
+	/**
+	 * 构造函数
+	 * @param i 树节点参数值，依次构造整个树节点
+	 */
+	TreeNode(int i) {
+		val = i;
+	}
+
+	/**
+	 * 重写了该函数，然后将返回该数值
+	 */
+	public String toString() {
+		return "该节点的数值是：" + val;
+	}
+}
+
+	/**
+	 * 前序遍历
+	 * @param root 输入根节点
+	 */
+	private static void preOrder(TreeNode root) {
+		if(root == null)
+			return;
+		System.out.print(root.val + "-");
+		preOrder(root.left);
+		preOrder(root.right);
+	}
+/**
+	 * 非递归前序遍历方法
+	 * @param root 根节点
+	 */
+	private static void unPreOrder(TreeNode root) {
+		if(root == null)
+			return;
+		TreeNode p = root;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		PrintStream ps = System.out;
+		do {
+			while(p != null) {
+				ps.print(p.val + "-");
+				if(p.right != null)
+					stack.push(p.right);
+				p = p.left;
+			}
+			if(!stack.isEmpty())
+				p = stack.pop();
+		} while(!(stack.isEmpty() && p == null));
+	}
+  
+  
+  
+	/**
+	 * 中序遍历
+	 * @param root 输入根节点
+	 */
+	private static void inOrder(TreeNode root) {
+		// TODO Auto-generated method stub
+		if(root == null)
+			return;
+		inOrder(root.left);
+		System.out.print(root.val + "-");
+		inOrder(root.right);
+	}
+
+	/**
+	 * 非递归中序遍历方法
+	 * @param root 根节点
+	 */
+	private static void unInOrder(TreeNode root) {
+		if(root == null)
+			return;
+		TreeNode p = root;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		PrintStream ps = System.out;
+		do {
+			while(p != null) {
+				stack.push(p);
+				p = p.left;
+			}
+			if(!stack.isEmpty())
+				p = stack.pop();
+			ps.print(p.val + "-");
+			p = p.right; 
+		} while(!(stack.isEmpty() && p == null));
+	}
+
+
+
+
+	/**
+	 *后序遍历 
+	 * @param root 输入根节点
+	 */
+	private static void postOrder(TreeNode root) {
+		// TODO Auto-generated method stub
+		if(root == null)
+			return;
+		postOrder(root.left);
+		postOrder(root.right);
+		System.out.print(root.val + "-");
+	}
+
+	/**
+	 * 非递归后序遍历方法
+	 * @param root 根节点
+	 */
+	private static void unPostOrder(TreeNode root) {
+		if(root == null)
+			return;
+		TreeNode p = root;
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		Stack<Integer> s2 = new Stack<Integer>();
+		PrintStream ps = System.out;
+		int flag;
+		do {
+			while(p != null) {
+				stack.push(p);
+				s2.push(0);
+				p = p.left;
+			}
+			p = stack.peek();
+			flag = s2.peek();
+			if(flag == 0) {
+				s2.pop();
+				s2.push(1);
+				p = p.right;
+			} else {
+				s2.pop();
+				ps.print(stack.pop().val + "-");
+				p = null;
+			}
+		} while(!(stack.isEmpty() && p == null));
+	}
+
+
+
+
+	/**
+	 * 按层次遍历二叉树方法
+	 * @param root 根节点
+	 */
+	private static void layerOrder(TreeNode root) {
+		if(root == null)
+			return;
+		Queue<TreeNode> queue = new LinkedList<TreeNode>();
+		TreeNode p =  root;
+		queue.add(p);
+		while(!queue.isEmpty()) {
+			p = queue.poll();
+			System.out.print(p.val + "-");
+			if(p.left != null)
+				queue.add(p.left);
+			if(p.right != null)
+				queue.add(p.right);
+		}
+	}
