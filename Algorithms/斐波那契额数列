@@ -1,0 +1,99 @@
+-1. 先上基本解法，几乎是小白闭着眼都能写出的代码：
+
+为了不产生指数级别的时间复杂度，只需要将中间过程中计算的斐波那契数列数值都记录下就可，改进代码如下：
+/**
+ * 斐波那契数列的实现类
+ * @author Gastby
+ *
+ */
+public class FormatTest {
+
+    /**
+     * 哈希表用来存放中间生成的的斐波那契数值
+     */
+    static HashMap<Integer, Long> map = new HashMap<Integer, Long>();
+    public static void main(String[] args) {
+        PrintStream pw = System.out;
+        int n = 50;
+        pw.println(fb1(n)); //直接打印第50个斐波那契数列
+        pw.println(fb2(n));
+        pw.println(fb3(n));
+    }
+
+    /**
+     * 递归调用，求算中间第n个斐波那契数值
+     * @param n
+     * @return
+     */
+    private static Long fb1(int n) {
+        if(n == 1) {
+            if(map.containsKey(n)) //先判断是否已经存入了哈希表中
+                return map.get(n);
+            else
+                map.put(n, (long)1);
+            return map.get(n);
+        } else if(n == 2) {
+            if(map.containsKey(n))
+                return map.get(n);
+            else
+                map.put(n, (long)1);
+            return map.get(n);
+        } else {
+            long v1, v2;
+            if(map.containsKey(n-1))
+                v1 = map.get(n-1);
+            else {
+                v1 = fb(n-1);
+                map.put(n-1, v1);
+            }
+            if(map.containsKey(n-2))
+                v2 = map.get(n-2);
+            else {
+                v2 = fb(n-2);
+                map.put(n-2, v2);
+            }
+            return v1 + v2;
+        }
+    }
+
+}
+------------------------------------------------
+当然这样的做法太复杂了，其实根本用不着哈希表，只需要数组就可以解决问题。
+-2. 数组自下向上求解第n个数值；
+
+/**
+     * 数组求解第n个斐波那契额数列数值
+     * @param n 输入的第n个数
+     * @return 返回该数值
+     */
+    private static int fb2(int n) {
+        if(n == 1)
+            return 1;
+        else if(n == 2)
+            return 1;
+        else {
+            int[] t = new int[n];
+            t[0] = 1;
+            t[1] = 1;
+            for(int i=2; i<n; i++) {
+                t[i] = t[i-1] + t[i-2];
+//              System.out.println(i + "--" + t[i]);
+            }
+            return t[n-1];
+        }
+    }
+-----------------------------------------------------------
+但其实在只需要求解第n个斐波那契额数值的时候，你中间缺保留计算了n-1个不需要存储数，一定程度上造成了空间的浪费，所以如果真的从节省空间的角度考虑的化，代码可以从以下角度进一步优化。
+-3. 只用两个变量就可计算得出最终第n个所需数值的代码如下，同样自下向上；
+
+    private static int fb3(int n) {
+        int a1=1, a2=1;
+        if(n == 1) return a1;
+        if(n == 1) return a2;
+        for(int k=2; k<n; k++) {
+            if(k % 2 == 1) a1 = a1 + a2;
+            if(k % 2 == 0) a2 = a1 + a2;
+        }
+        if(n % 2 == 0) return a1;
+        return a2;
+    }
