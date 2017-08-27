@@ -1,4 +1,7 @@
 
+//this 和super两个关键字都不能出现在static方法中
+//
+
 public class Divide {
 
 	
