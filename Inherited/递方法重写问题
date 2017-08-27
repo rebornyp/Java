@@ -1,0 +1,39 @@
+
+public class Divide {
+
+	
+	public static void main(String[] args) {
+		N n = new N();
+		n.test();
+		Node m = new Node();
+		System.out.print(m.add(5));
+	}
+	
+}
+
+class Node {
+    public int add(int i){
+    	return i == 1 ? i : i + add(i-1);
+    }
+    
+	static void change() {
+		System.out.println("Node is nice to meet you");
+	}
+}
+
+class N extends Node{
+	public int add(int i) {
+        return i == 1 ? 1 : i * add(i-1);
+    }
+	
+	public void test(){
+        System.out.println(super.add(5));//调用1-100的和
+    }
+	
+	static void change() {
+//		super.change();
+		System.out.println("meet you");
+//		return "sjdk";
+	}
+}
+
