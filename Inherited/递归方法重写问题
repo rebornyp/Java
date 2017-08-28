@@ -1,7 +1,7 @@
-
-//this 和super两个关键字都不能出现在static方法中
+# 递归方法重写的问题
+**this 和super两个关键字都不能出现在static方法中**
 //
-
+```java
 public class Divide {
 
 	
@@ -39,4 +39,5 @@ class N extends Node{
 //		return "sjdk";
 	}
 }
+```
 
