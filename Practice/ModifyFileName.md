@@ -2,7 +2,9 @@
 
 * 代码如下
 
---- java
+---
+
+```
 
 package useful;
 
@@ -64,4 +66,4 @@ public class ThreeKindomChangeName {
   
 }
 
----
+```
