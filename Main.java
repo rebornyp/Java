@@ -21,7 +21,7 @@ public class Main {
     /**
      * 记录全局黑名单的映射表，如果用户为 true，那么则该用户在黑名单上；
      */
-    private static ConcurrentHashMap<String, AtomicBoolean> blackList = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, Boolean> blackList = new ConcurrentHashMap<>();
 
     /**
      * 测试 demo；
@@ -49,13 +49,7 @@ public class Main {
      * @param time 用户访问时间
      */
     void access(String id, long time) {
-        if (!blackList.containsKey(id)) { //双重检查，若不在黑名单上则将用户加入黑名单并初始化为false；
-            synchronized (blackList) {
-                if (!blackList.containsKey(id))
-                    blackList.put(id, new AtomicBoolean(false));
-            }
-        }
-        blackList.get(id).set(service(id, time));
+        blackList.putIfAbsent(id, service(id, time));
     }
 
     /**
@@ -70,9 +64,9 @@ public class Main {
             synchronized (skipMap) {
                 if (!skipMap.containsKey(id)) {
                     ConcurrentSkipListMap<Long, Integer> cp = new ConcurrentSkipListMap<>();
-                    cp.put(System.currentTimeMillis(), 0);
+                    cp.put(time, 0);
                     skipMap.put(id, cp);
-                    userAccessCount.put(id, new AtomicInteger(0));
+                    userAccessCount.putIfAbsent(id, new AtomicInteger(1));
                     return false;
                 }
             }
@@ -90,8 +84,12 @@ public class Main {
     private boolean check(ConcurrentSkipListMap<Long, Integer> sp, long time) {
         Long preMin = sp.ceilingKey(time-60000); //获取到距离 time 时刻前1min最近最新一次访问的时间
         Long preHour = sp.ceilingKey(time - 3600000); //获取到距离 time 时刻前1hour最近最新一次访问的时间
-        if (preMin != null && sp.get(time) - sp.get(preMin) > 500) return true;
-        if (preHour != null && sp.get(time) - sp.get(preHour) > 15000) return true;
+        sp.remove(sp.firstKey(), sp.floorKey(preHour)); // 删除用户 time时刻1小时前的所有访问记录；
+
+        if (preMin != null && sp.get(time) - sp.get(preMin) > 500)
+            return true;
+        if (preHour != null && sp.get(time) - sp.get(preHour) > 15000)
+            return true;
         return false;
     }
 
